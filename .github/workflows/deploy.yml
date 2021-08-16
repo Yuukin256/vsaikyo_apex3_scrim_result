@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     env:
-      ANALYTICS_TRACKING_ID: {{ secrets.ANALYTICS_TRACKING_ID }}
+      ANALYTICS_TRACKING_ID: ${{ secrets.ANALYTICS_TRACKING_ID }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
