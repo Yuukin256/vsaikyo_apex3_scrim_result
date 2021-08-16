@@ -53,7 +53,7 @@ const Seo: React.VFC<Props> = ({
         },
         {
           property: `og:title`,
-          content: title,
+          content: defaultTitle,
         },
         {
           property: `og:description`,
@@ -73,7 +73,7 @@ const Seo: React.VFC<Props> = ({
         },
         {
           name: `twitter:title`,
-          content: title,
+          content: defaultTitle,
         },
         {
           name: `twitter:description`,

@@ -37,8 +37,7 @@ const Layout: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
             marginTop: `2rem`,
           }}
         >
-          © 2021 Yuukin256 (
-          <a href="https://twitter.com/Yuukin256">@Yuukin256</a>), Built with
+          © 2021 Yuukin256 (<a href="https://twitter.com/Yuukin256">@Yuukin256</a>), Built with
           {` `}
           <a href="https://www.gatsbyjs.com">Gatsby</a>
         </footer>
