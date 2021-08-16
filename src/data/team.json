@@ -1,7 +1,7 @@
 [
   {
     "number": 1,
-    "name": "三枝明那チーム",
+    "name": "おべっか",
     "rank": 0,
     "totalPlacementPoints": 0,
     "totalKills": 0,
@@ -10,24 +10,6 @@
   },
   {
     "number": 2,
-    "name": "あの伝説",
-    "rank": 0,
-    "totalPlacementPoints": 0,
-    "totalKills": 0,
-    "totalPoints": 0,
-    "results": []
-  },
-  {
-    "number": 3,
-    "name": "歌衣メイカチーム",
-    "rank": 0,
-    "totalPlacementPoints": 0,
-    "totalKills": 0,
-    "totalPoints": 0,
-    "results": []
-  },
-  {
-    "number": 4,
     "name": "ぱすてるさわー",
     "rank": 0,
     "totalPlacementPoints": 0,
@@ -36,7 +18,7 @@
     "results": []
   },
   {
-    "number": 5,
+    "number": 3,
     "name": "ざりがにいるか",
     "rank": 0,
     "totalPlacementPoints": 0,
@@ -45,8 +27,26 @@
     "results": []
   },
   {
+    "number": 4,
+    "name": "ラフメイカー",
+    "rank": 0,
+    "totalPlacementPoints": 0,
+    "totalKills": 0,
+    "totalPoints": 0,
+    "results": []
+  },
+  {
+    "number": 5,
+    "name": "アルティメットブルーアイズ",
+    "rank": 0,
+    "totalPlacementPoints": 0,
+    "totalKills": 0,
+    "totalPoints": 0,
+    "results": []
+  },
+  {
     "number": 6,
-    "name": "杏戸ゆげチーム",
+    "name": "あの伝説",
     "rank": 0,
     "totalPlacementPoints": 0,
     "totalKills": 0,
@@ -64,7 +64,7 @@
   },
   {
     "number": 8,
-    "name": "椎名唯華チーム",
+    "name": "ごーすとばすたーず",
     "rank": 0,
     "totalPlacementPoints": 0,
     "totalKills": 0,
@@ -82,7 +82,7 @@
   },
   {
     "number": 10,
-    "name": "杏仁ミルチーム",
+    "name": "猫神ル幼稚園",
     "rank": 0,
     "totalPlacementPoints": 0,
     "totalKills": 0,
@@ -127,7 +127,7 @@
   },
   {
     "number": 15,
-    "name": "獅子神レオナチーム",
+    "name": "声出しプレデター",
     "rank": 0,
     "totalPlacementPoints": 0,
     "totalKills": 0,
@@ -136,7 +136,7 @@
   },
   {
     "number": 16,
-    "name": "雪城眞尋チーム",
+    "name": "まひまひはきゅーけいちゅー！",
     "rank": 0,
     "totalPlacementPoints": 0,
     "totalKills": 0,
