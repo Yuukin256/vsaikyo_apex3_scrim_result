@@ -63,10 +63,10 @@ const ResultTable: React.VFC<Props> = (props) => {
         kills: team.kills,
         points: placementPoints + killPoints,
       };
-      results.at(team.number - 1).results.push(result);
-      results.at(team.number - 1).totalPlacementPoints += placementPoints;
-      results.at(team.number - 1).totalKills += killPoints;
-      results.at(team.number - 1).totalPoints += placementPoints + killPoints;
+      results[team.number - 1].results.push(result);
+      results[team.number - 1].totalPlacementPoints += placementPoints;
+      results[team.number - 1].totalKills += killPoints;
+      results[team.number - 1].totalPoints += placementPoints + killPoints;
     });
   });
 
