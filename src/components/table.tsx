@@ -145,7 +145,7 @@ const ResultTable: React.VFC<Props> = (props) => {
     },
     {
       number: 11,
-      name: '天使うとチーム',
+      name: '幼女戦姫',
       rank: 0,
       totalPlacementPoints: 0,
       totalKills: 0,
@@ -154,7 +154,7 @@ const ResultTable: React.VFC<Props> = (props) => {
     },
     {
       number: 12,
-      name: '空澄セナチーム',
+      name: '月面着陸',
       rank: 0,
       totalPlacementPoints: 0,
       totalKills: 0,
@@ -217,7 +217,7 @@ const ResultTable: React.VFC<Props> = (props) => {
     },
     {
       number: 19,
-      name: 'パカエルチーム',
+      name: 'カワボAPEX女子会',
       rank: 0,
       totalPlacementPoints: 0,
       totalKills: 0,
@@ -226,7 +226,7 @@ const ResultTable: React.VFC<Props> = (props) => {
     },
     {
       number: 20,
-      name: '叶チーム',
+      name: 'イケメン3羽烏',
       rank: 0,
       totalPlacementPoints: 0,
       totalKills: 0,
