@@ -48,11 +48,193 @@ const placementColor = (placement: number | '-'): React.CSSProperties => {
 
 interface Props {
   result: InputResult[];
-  team: TeamResult[];
+  // enableMaxKill: boolean;
 }
 
 const ResultTable: React.VFC<Props> = (props) => {
-  const results = props.team;
+  const results: TeamResult[] = [
+    {
+      number: 1,
+      name: 'おべっか',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 2,
+      name: 'ぱすてるさわー',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 3,
+      name: 'ざりがにいるか',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 4,
+      name: 'ラフメイカー',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 5,
+      name: 'アルティメットブルーアイズ',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 6,
+      name: 'あの伝説',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 7,
+      name: '雪月花',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 8,
+      name: 'ごーすとばすたーず',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 9,
+      name: '花芽い社',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 10,
+      name: '猫神ル幼稚園',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 11,
+      name: '天使うとチーム',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 12,
+      name: '空澄セナチーム',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 13,
+      name: 'ゴリラの惑星エピソード1',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 14,
+      name: 'ReTIcle',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 15,
+      name: '声出しプレデター',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 16,
+      name: 'まひまひはきゅーけいちゅー！',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 17,
+      name: 'アークスターズ',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 18,
+      name: 'メンヘラ三銃士',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 19,
+      name: 'パカエルチーム',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+    {
+      number: 20,
+      name: '叶チーム',
+      rank: 0,
+      totalPlacementPoints: 0,
+      totalKills: 0,
+      totalPoints: 0,
+      results: [],
+    },
+  ];
+
   props.result.forEach((match) => {
     match.teams.forEach((team) => {
       const placementPoints = calculatePlacementPoint(team.placement);
@@ -68,6 +250,14 @@ const ResultTable: React.VFC<Props> = (props) => {
       results[team.number - 1].totalKills += killPoints;
       results[team.number - 1].totalPoints += placementPoints + killPoints;
     });
+  });
+
+  results.sort((a, b) => {
+    if (a.totalPoints !== b.totalPoints) {
+      return b.totalPoints - a.totalPoints;
+    }
+    // 同ポイントの場合は最高スコアが高いチームが上位
+    return Math.max(...b.results.map((v) => v.points)) - Math.max(...a.results.map((v) => v.points));
   });
 
   const matches = props.result.length;
@@ -123,44 +313,36 @@ const ResultTable: React.VFC<Props> = (props) => {
           <HeadRow2></HeadRow2>
         </TableHead>
         <TableBody>
-          {results
-            .sort((a, b) => {
-              if (a.totalPoints !== b.totalPoints) {
-                return b.totalPoints - a.totalPoints;
-              }
-              // 同ポイントの場合は最高スコアが高いチームが上位
-              return Math.max(...b.results.map((v) => v.points)) - Math.max(...a.results.map((v) => v.points));
-            })
-            .map((teamResult, i) => (
-              <TableRow hover key={i}>
-                <TableCell align="right">{i + 1}</TableCell>
-                <TableCell>{teamResult.name}</TableCell>
-                <TableCell>
-                  <b>{teamResult.totalPoints}</b>
-                </TableCell>
-                <TableCell>{teamResult.totalPlacementPoints}</TableCell>
-                <TableCell style={borderRight}>{teamResult.totalKills}</TableCell>
-                {teamResult.results.flatMap((match) => {
-                  const pp = calculatePlacementPoint(match.placement);
-                  return [
-                    <TableCell
-                      key="placement"
-                      title={`${pp}ポイント`}
-                      align="right"
-                      style={placementColor(match.placement)}
-                    >
-                      {match.placement}
-                    </TableCell>,
-                    <TableCell key="kills" align="right">
-                      {match.kills}
-                    </TableCell>,
-                    <TableCell align="right" style={match.match !== matches ? borderRight : {}} key="points">
-                      {match.points}
-                    </TableCell>,
-                  ];
-                })}
-              </TableRow>
-            ))}
+          {results.map((teamResult, i) => (
+            <TableRow hover key={i}>
+              <TableCell align="right">{i + 1}</TableCell>
+              <TableCell>{teamResult.name}</TableCell>
+              <TableCell>
+                <b>{teamResult.totalPoints}</b>
+              </TableCell>
+              <TableCell>{teamResult.totalPlacementPoints}</TableCell>
+              <TableCell style={borderRight}>{teamResult.totalKills}</TableCell>
+              {teamResult.results.flatMap((match) => {
+                const pp = calculatePlacementPoint(match.placement);
+                return [
+                  <TableCell
+                    key="placement"
+                    title={`${pp}ポイント`}
+                    align="right"
+                    style={placementColor(match.placement)}
+                  >
+                    {match.placement}
+                  </TableCell>,
+                  <TableCell key="kills" align="right">
+                    {match.kills}
+                  </TableCell>,
+                  <TableCell align="right" style={match.match !== matches ? borderRight : {}} key="points">
+                    {match.points}
+                  </TableCell>,
+                ];
+              })}
+            </TableRow>
+          ))}
         </TableBody>
         <TableHead style={{ borderTop: '1px solid rgba(224, 224, 224, 1)', backgroundColor: '#fafafa' }}>
           <HeadRow2></HeadRow2>
