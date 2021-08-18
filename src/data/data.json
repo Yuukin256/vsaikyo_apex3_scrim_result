@@ -1280,5 +1280,116 @@
         ]
       }
     ]
+  },
+  {
+    "day": "3日目 (8月18日)",
+    "matches": [
+      {
+        "match": 1,
+        "maxKills": 3,
+        "teams": [
+          {
+            "number": 1,
+            "placement": 11,
+            "kills": 1
+          },
+          {
+            "number": 2,
+            "placement": 12,
+            "kills": 1
+          },
+          {
+            "number": 3,
+            "placement": 3,
+            "kills": 3
+          },
+          {
+            "number": 4,
+            "placement": 8,
+            "kills": 2
+          },
+          {
+            "number": 5,
+            "placement": 2,
+            "kills": 7
+          },
+          {
+            "number": 6,
+            "placement": 7,
+            "kills": 4
+          },
+          {
+            "number": 7,
+            "placement": 1,
+            "kills": 18
+          },
+          {
+            "number": 8,
+            "placement": 4,
+            "kills": 0
+          },
+          {
+            "number": 9,
+            "placement": 14,
+            "kills": 3
+          },
+          {
+            "number": 10,
+            "placement": "-",
+            "kills": "-"
+          },
+          {
+            "number": 11,
+            "placement": 17,
+            "kills": 0
+          },
+          {
+            "number": 12,
+            "placement": 15,
+            "kills": 1
+          },
+          {
+            "number": 13,
+            "placement": 5,
+            "kills": 0
+          },
+          {
+            "number": 14,
+            "placement": 10,
+            "kills": 1
+          },
+          {
+            "number": 15,
+            "placement": 9,
+            "kills": 0
+          },
+          {
+            "number": 16,
+            "placement": 18,
+            "kills": 0
+          },
+          {
+            "number": 17,
+            "placement": "-",
+            "kills": "-"
+          },
+          {
+            "number": 18,
+            "placement": 6,
+            "kills": 3
+          },
+          {
+            "number": 19,
+            "placement": 16,
+            "kills": 2
+          },
+          {
+            "number": 20,
+            "placement": 13,
+            "kills": 2
+          }
+        ]
+      }
+    ]
   }
 ]
