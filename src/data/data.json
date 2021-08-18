@@ -4,6 +4,7 @@
     "matches": [
       {
         "match": 1,
+        "maxKills": 3,
         "teams": [
           {
             "number": 1,
@@ -109,6 +110,7 @@
       },
       {
         "match": 2,
+        "maxKills": 6,
         "teams": [
           {
             "number": 1,
@@ -214,6 +216,7 @@
       },
       {
         "match": 3,
+        "maxKills": 6,
         "teams": [
           {
             "number": 1,
@@ -319,6 +322,7 @@
       },
       {
         "match": 4,
+        "maxKills": null,
         "teams": [
           {
             "number": 1,
@@ -424,6 +428,7 @@
       },
       {
         "match": 5,
+        "maxKills": null,
         "teams": [
           {
             "number": 1,
@@ -529,6 +534,7 @@
       },
       {
         "match": 6,
+        "maxKills": null,
         "teams": [
           {
             "number": 1,
@@ -639,6 +645,7 @@
     "matches": [
       {
         "match": 1,
+        "maxKills": 3,
         "teams": [
           {
             "number": 1,
@@ -744,6 +751,7 @@
       },
       {
         "match": 2,
+        "maxKills": 6,
         "teams": [
           {
             "number": 1,
@@ -849,6 +857,7 @@
       },
       {
         "match": 3,
+        "maxKills": 6,
         "teams": [
           {
             "number": 1,
@@ -954,6 +963,7 @@
       },
       {
         "match": 4,
+        "maxKills": null,
         "teams": [
           {
             "number": 1,
@@ -1059,6 +1069,7 @@
       },
       {
         "match": 5,
+        "maxKills": null,
         "teams": [
           {
             "number": 1,
@@ -1164,6 +1175,7 @@
       },
       {
         "match": 6,
+        "maxKills": null,
         "teams": [
           {
             "number": 1,

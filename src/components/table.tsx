@@ -5,15 +5,16 @@ import { calculatePlacementPoint } from '../utils/calculator';
 
 interface InputResult {
   match: number;
+  maxKills: number | null;
   teams: {
     number: number;
     placement: number | '-';
     kills: number | '-';
   }[];
 }
-
 interface Result {
   match: number;
+  overMaxKills: boolean;
   placement: number | '-';
   kills: number | '-';
   points: number;
@@ -47,12 +48,12 @@ const placementColor = (placement: number | '-'): React.CSSProperties => {
 };
 
 interface Props {
-  result: InputResult[];
-  // enableMaxKill: boolean;
+  dayResult: InputResult[];
+  enableMaxKill: boolean;
 }
 
 const ResultTable: React.VFC<Props> = (props) => {
-  const results: TeamResult[] = [
+  const teams: TeamResult[] = [
     {
       number: 1,
       name: 'おべっか',
@@ -235,24 +236,48 @@ const ResultTable: React.VFC<Props> = (props) => {
     },
   ];
 
-  props.result.forEach((match) => {
-    match.teams.forEach((team) => {
-      const placementPoints = calculatePlacementPoint(team.placement);
-      const killPoints = team.kills === '-' ? 0 : team.kills;
-      const result: Result = {
-        match: match.match,
-        placement: team.placement,
-        kills: team.kills,
-        points: placementPoints + killPoints,
-      };
-      results[team.number - 1].results.push(result);
-      results[team.number - 1].totalPlacementPoints += placementPoints;
-      results[team.number - 1].totalKills += killPoints;
-      results[team.number - 1].totalPoints += placementPoints + killPoints;
+  // キルポイント上限の有無
+  if (props.enableMaxKill) {
+    props.dayResult.forEach((matchResult) => {
+      const numberOfMaxKills = matchResult.maxKills ?? Infinity;
+      matchResult.teams.forEach((teamResult) => {
+        const placementPoints = calculatePlacementPoint(teamResult.placement);
+        const kills = teamResult.kills === '-' ? 0 : teamResult.kills;
+        const killPoints = kills > numberOfMaxKills ? numberOfMaxKills : kills;
+        const result: Result = {
+          match: matchResult.match,
+          overMaxKills: kills > numberOfMaxKills,
+          placement: teamResult.placement,
+          kills: teamResult.kills,
+          points: placementPoints + killPoints,
+        };
+        teams[teamResult.number - 1].results.push(result);
+        teams[teamResult.number - 1].totalPlacementPoints += placementPoints;
+        teams[teamResult.number - 1].totalKills += kills;
+        teams[teamResult.number - 1].totalPoints += placementPoints + killPoints;
+      });
     });
-  });
+  } else {
+    props.dayResult.forEach((matchResult) => {
+      matchResult.teams.forEach((teamResult) => {
+        const placementPoints = calculatePlacementPoint(teamResult.placement);
+        const killPoints = teamResult.kills === '-' ? 0 : teamResult.kills;
+        const result: Result = {
+          match: matchResult.match,
+          overMaxKills: false,
+          placement: teamResult.placement,
+          kills: teamResult.kills,
+          points: placementPoints + killPoints,
+        };
+        teams[teamResult.number - 1].results.push(result);
+        teams[teamResult.number - 1].totalPlacementPoints += placementPoints;
+        teams[teamResult.number - 1].totalKills += killPoints;
+        teams[teamResult.number - 1].totalPoints += placementPoints + killPoints;
+      });
+    });
+  }
 
-  results.sort((a, b) => {
+  teams.sort((a, b) => {
     if (a.totalPoints !== b.totalPoints) {
       return b.totalPoints - a.totalPoints;
     }
@@ -260,17 +285,17 @@ const ResultTable: React.VFC<Props> = (props) => {
     return Math.max(...b.results.map((v) => v.points)) - Math.max(...a.results.map((v) => v.points));
   });
 
-  const matches = props.result.length;
+  const numberOfMatches = props.dayResult.length;
 
   const HeadRow1: React.VFC = () => {
     return (
       <TableRow>
         <TableCell colSpan={5} style={borderRight}></TableCell>
-        {props.result.map((matchResult) => (
+        {props.dayResult.map((matchResult) => (
           <TableCell
             colSpan={3}
             align="center"
-            style={matchResult.match !== matches ? borderRight : {}}
+            style={matchResult.match !== numberOfMatches ? borderRight : {}}
             key={matchResult.match}
           >
             {matchResult.match}試合目
@@ -289,7 +314,7 @@ const ResultTable: React.VFC<Props> = (props) => {
       <TableCell>合計ポイント</TableCell>
       <TableCell>合計順位ポイント</TableCell>
       <TableCell style={borderRight}>合計キル数</TableCell>
-      {Array(matches)
+      {Array(numberOfMatches)
         .fill(null)
         .flatMap((_, i) => [
           <TableCell align="right" key={i + 'a'}>
@@ -298,7 +323,7 @@ const ResultTable: React.VFC<Props> = (props) => {
           <TableCell align="right" key={i + 'b'}>
             キル数
           </TableCell>,
-          <TableCell align="right" style={i + 1 !== matches ? borderRight : {}} key={i + 'c'}>
+          <TableCell align="right" style={i + 1 !== numberOfMatches ? borderRight : {}} key={i + 'c'}>
             ポイント
           </TableCell>,
         ])}
@@ -313,12 +338,12 @@ const ResultTable: React.VFC<Props> = (props) => {
           <HeadRow2></HeadRow2>
         </TableHead>
         <TableBody>
-          {results.map((teamResult, i) => (
+          {teams.map((teamResult, i) => (
             <TableRow hover key={i}>
               <TableCell align="right">{i + 1}</TableCell>
               <TableCell>{teamResult.name}</TableCell>
               <TableCell>
-                <b>{teamResult.totalPoints}</b>
+                <strong>{teamResult.totalPoints}</strong>
               </TableCell>
               <TableCell>{teamResult.totalPlacementPoints}</TableCell>
               <TableCell style={borderRight}>{teamResult.totalKills}</TableCell>
@@ -334,9 +359,9 @@ const ResultTable: React.VFC<Props> = (props) => {
                     {match.placement}
                   </TableCell>,
                   <TableCell key="kills" align="right">
-                    {match.kills}
+                    {match.overMaxKills ? <em>{match.kills}</em> : match.kills}
                   </TableCell>,
-                  <TableCell align="right" style={match.match !== matches ? borderRight : {}} key="points">
+                  <TableCell align="right" style={match.match !== numberOfMatches ? borderRight : {}} key="points">
                     {match.points}
                   </TableCell>,
                 ];

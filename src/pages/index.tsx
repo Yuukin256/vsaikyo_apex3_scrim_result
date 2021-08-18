@@ -6,7 +6,7 @@ import Table from '../components/table';
 import data from '../data/data.json';
 
 const MainPage: React.FC = () => {
-  // const [maxKill, setMaxKill] = React.useState<boolean>(false);
+  const [maxKill, setMaxKill] = React.useState<boolean>(false);
 
   return (
     <Layout>
@@ -19,16 +19,20 @@ const MainPage: React.FC = () => {
       <ul style={{ fontSize: '0.9em' }}>
         <li>マップはすべてWorld&apos;s Edgeです。</li>
         <li>
-          本番は1試合目3ポイント、2,3試合目6ポイントのキルポイント上限がありますが、この集計ではキルポイント上限を考慮していません。
+          本番は1試合目3ポイント、2,3試合目6ポイントのキルポイント上限があります。練習カスタムでは全チームが各マッチのキルポイント上限を意識して動いているわけではないため、キルポイント上限の有無を切り替えて結果を見られるようにしています。
+        </li>
+        <li>
+          キルポイント上限を適用しているとき、キル数が<em>斜体</em>
+          で表示されているものは上限を超えていることを意味します。
         </li>
       </ul>
-      {/* <FormControlLabel
-        onChange={(e, checked) => setMaxKill(checked)}
+      <FormControlLabel
+        onChange={(_, checked) => setMaxKill(checked)}
         value="start"
         control={<Checkbox color="primary" />}
         label="キルポイント上限を適用する"
         labelPlacement="start"
-       />*/}
+      />
       {data
         .concat() // reverse は破壊メソッド
         .reverse()
@@ -36,10 +40,7 @@ const MainPage: React.FC = () => {
           return (
             <React.Fragment key={i}>
               <h2>{day.day}</h2>
-              <Table
-                result={day.matches}
-                // enableMaxKill={maxKill}
-              />
+              <Table dayResult={day.matches} enableMaxKill={maxKill} />
             </React.Fragment>
           );
         })}
