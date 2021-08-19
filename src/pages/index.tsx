@@ -29,18 +29,28 @@ const MainPage: React.FC = () => {
         .concat() // reverse は破壊メソッド
         .reverse()
         .map((day, i) => {
-          const [maxKill, setMaxKill] = React.useState<boolean>(false);
+          const [enableLimitKill, setEnableLimitKill] = React.useState<boolean>(false);
+          const [includeAdditionalRound, setIncludeAdditionalRound] = React.useState<boolean>(true);
           return (
             <React.Fragment key={i}>
               <h2>{day.day}</h2>
               <FormControlLabel
-                onChange={(_, checked) => setMaxKill(checked)}
-                value="start"
-                control={<Checkbox color="primary" />}
+                onChange={(_, checked) => setEnableLimitKill(checked)}
+                control={<Checkbox color="primary" checked={enableLimitKill} />}
                 label="キルポイント上限を適用する"
                 labelPlacement="start"
               />
-              <Table dayResult={day.matches} enableMaxKill={maxKill} />
+              <FormControlLabel
+                onChange={(_, checked) => setIncludeAdditionalRound(checked)}
+                control={<Checkbox color="primary" checked={includeAdditionalRound} />}
+                label="延長戦を含める"
+                labelPlacement="start"
+              />
+              <Table
+                dayResult={day.matches}
+                enableLimitKill={enableLimitKill}
+                includeAdditionalRound={includeAdditionalRound}
+              />
             </React.Fragment>
           );
         })}

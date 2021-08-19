@@ -84,7 +84,8 @@ const placementColor = (placement: number | '-'): React.CSSProperties => {
 
 interface Props {
   dayResult: InputResult[];
-  enableMaxKill: boolean;
+  enableLimitKill: boolean;
+  includeAdditionalRound: boolean;
 }
 
 const ResultTable: React.VFC<Props> = (props) => {
@@ -112,6 +113,8 @@ const ResultTable: React.VFC<Props> = (props) => {
       new TeamResult(20, 'イケメン3羽烏'),
     ];
     props.dayResult.forEach((matchResult) => {
+      if (!props.includeAdditionalRound && matchResult.match > 5) return;
+
       const numberOfLimitKills = matchResult.maxKills ?? Infinity;
       matchResult.teams.forEach((teamResult) => {
         teams[teamResult.number - 1].addMatchResult({
@@ -123,10 +126,10 @@ const ResultTable: React.VFC<Props> = (props) => {
       });
     });
     return teams;
-  }, [props.dayResult]);
+  }, [props.dayResult, props.includeAdditionalRound]);
 
   // キルポイント上限の有無で並べ方が違う
-  if (props.enableMaxKill) {
+  if (props.enableLimitKill) {
     resultOfEachTeam.sort((a, b) => {
       if (a.totalCappedPoints !== b.totalCappedPoints) {
         return b.totalCappedPoints - a.totalCappedPoints;
@@ -144,22 +147,19 @@ const ResultTable: React.VFC<Props> = (props) => {
     });
   }
 
-  const numberOfMatches = props.dayResult.length;
+  const numberOfMatches = props.includeAdditionalRound ? props.dayResult.length : Math.min(props.dayResult.length, 5);
 
   const HeadRow1: React.VFC = () => {
     return (
       <TableRow>
         <TableCell colSpan={5} style={borderRight}></TableCell>
-        {props.dayResult.map((matchResult) => (
-          <TableCell
-            colSpan={3}
-            align="center"
-            style={matchResult.match !== numberOfMatches ? borderRight : {}}
-            key={matchResult.match}
-          >
-            {matchResult.match}試合目
-          </TableCell>
-        ))}
+        {Array(numberOfMatches)
+          .fill(null)
+          .map((_, i) => (
+            <TableCell colSpan={3} align="center" style={i + 1 !== numberOfMatches ? borderRight : {}} key={i + 1}>
+              {i + 1}試合目
+            </TableCell>
+          ))}
       </TableRow>
     );
   };
@@ -212,7 +212,7 @@ const ResultTable: React.VFC<Props> = (props) => {
               <TableCell align="right">{i + 1}</TableCell>
               <TableCell>{team.name}</TableCell>
               <TableCell align="right">
-                <strong>{props.enableMaxKill ? team.totalCappedPoints : team.totalPoints}</strong>
+                <strong>{props.enableLimitKill ? team.totalCappedPoints : team.totalPoints}</strong>
               </TableCell>
               <TableCell align="right">{team.totalPlacementPoints}</TableCell>
               <TableCell align="right" style={borderRight}>
@@ -230,14 +230,14 @@ const ResultTable: React.VFC<Props> = (props) => {
                     {match.placement}
                   </TableCell>,
                   <TableCell key={`${i}_${j}_kills`} align="right">
-                    {props.enableMaxKill && match.overLimitKills ? <em>{match.kills}</em> : match.kills}
+                    {props.enableLimitKill && match.overLimitKills ? <em>{match.kills}</em> : match.kills}
                   </TableCell>,
                   <TableCell
                     key={`${i}_${j}_points`}
                     align="right"
                     style={match.match !== numberOfMatches ? borderRight : {}}
                   >
-                    {props.enableMaxKill ? match.cappedPoints : match.points}
+                    {props.enableLimitKill ? match.cappedPoints : match.points}
                   </TableCell>,
                 ];
               })}
