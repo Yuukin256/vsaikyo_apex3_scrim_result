@@ -230,7 +230,7 @@ const ResultTable: React.VFC<Props> = (props) => {
                     {match.placement}
                   </TableCell>,
                   <TableCell key={`${i}_${j}_kills`} align="right">
-                    {match.overLimitKills ? <em>{match.kills}</em> : match.kills}
+                    {props.enableMaxKill && match.overLimitKills ? <em>{match.kills}</em> : match.kills}
                   </TableCell>,
                   <TableCell
                     key={`${i}_${j}_points`}
