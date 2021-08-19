@@ -6,8 +6,6 @@ import Table from '../components/table';
 import data from '../data/data.json';
 
 const MainPage: React.FC = () => {
-  const [maxKill, setMaxKill] = React.useState<boolean>(false);
-
   return (
     <Layout>
       <Seo title="Home" />
@@ -27,20 +25,21 @@ const MainPage: React.FC = () => {
           で表示されているものは上限を超えていることを意味します。
         </li>
       </ul>
-      <FormControlLabel
-        onChange={(_, checked) => setMaxKill(checked)}
-        value="start"
-        control={<Checkbox color="primary" />}
-        label="キルポイント上限を適用する"
-        labelPlacement="start"
-      />
       {data
         .concat() // reverse は破壊メソッド
         .reverse()
         .map((day, i) => {
+          const [maxKill, setMaxKill] = React.useState<boolean>(false);
           return (
             <React.Fragment key={i}>
               <h2>{day.day}</h2>
+              <FormControlLabel
+                onChange={(_, checked) => setMaxKill(checked)}
+                value="start"
+                control={<Checkbox color="primary" />}
+                label="キルポイント上限を適用する"
+                labelPlacement="start"
+              />
               <Table dayResult={day.matches} enableMaxKill={maxKill} />
             </React.Fragment>
           );

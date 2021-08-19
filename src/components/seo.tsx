@@ -16,12 +16,7 @@ interface Props {
   title: string;
 }
 
-const Seo: React.VFC<Props> = ({
-  description = '',
-  lang = 'en',
-  meta = [],
-  title,
-}) => {
+const Seo: React.VFC<Props> = ({ description = '', lang = 'en', meta = [], title }) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -45,7 +40,7 @@ const Seo: React.VFC<Props> = ({
         lang,
       }}
       title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+      titleTemplate={defaultTitle}
       meta={[
         {
           name: `description`,

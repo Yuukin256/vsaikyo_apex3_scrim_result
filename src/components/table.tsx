@@ -2,6 +2,7 @@ import { TableContainer, Table, TableHead, TableBody, TableRow } from '@material
 import React from 'react';
 import TableCell from './improvedTableCell';
 import { calculatePlacementPoint } from '../utils/calculator';
+import { useMemo } from 'react';
 
 interface InputResult {
   match: number;
@@ -14,20 +15,54 @@ interface InputResult {
 }
 interface Result {
   match: number;
-  overMaxKills: boolean;
+  overLimitKills: boolean;
   placement: number | '-';
   kills: number | '-';
   points: number;
+  cappedPoints: number;
 }
 
-interface TeamResult {
+class TeamResult {
   number: number;
   name: string;
-  rank: number;
   totalPlacementPoints: number;
   totalKills: number;
   totalPoints: number;
+  totalCappedPoints: number;
   results: Result[];
+
+  constructor(number: number, name: string) {
+    this.number = number;
+    this.name = name;
+    this.totalPlacementPoints = 0;
+    this.totalKills = 0;
+    this.totalPoints = 0;
+    this.totalCappedPoints = 0;
+    this.results = [];
+  }
+
+  public addMatchResult(r: {
+    match: number;
+    placement: number | '-';
+    kills: number | '-';
+    numberOfLimitKills: number;
+  }) {
+    const placementPoints = calculatePlacementPoint(r.placement);
+    const kills = r.kills === '-' ? 0 : r.kills;
+    const result: Result = {
+      match: r.match,
+      overLimitKills: r.kills > r.numberOfLimitKills,
+      placement: r.placement,
+      kills: r.kills,
+      points: placementPoints + kills,
+      cappedPoints: placementPoints + Math.min(r.numberOfLimitKills, kills),
+    };
+    this.results.push(result);
+    this.totalPlacementPoints += placementPoints;
+    this.totalKills += kills;
+    this.totalPoints += result.points;
+    this.totalCappedPoints += result.cappedPoints;
+  }
 }
 
 const borderRight: React.CSSProperties = {
@@ -53,237 +88,61 @@ interface Props {
 }
 
 const ResultTable: React.VFC<Props> = (props) => {
-  const teams: TeamResult[] = [
-    {
-      number: 1,
-      name: 'おべっか',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 2,
-      name: 'ぱすてるさわー',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 3,
-      name: 'ざりがにいるか',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 4,
-      name: 'ラフメイカー',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 5,
-      name: 'アルティメットブルーアイズ',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 6,
-      name: 'あの伝説',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 7,
-      name: '雪月花',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 8,
-      name: 'ごーすとばすたーず',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 9,
-      name: '花芽い社',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 10,
-      name: '猫神ル幼稚園',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 11,
-      name: '幼女戦姫',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 12,
-      name: '月面着陸',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 13,
-      name: 'ゴリラの惑星エピソード1',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 14,
-      name: 'ReTIcle',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 15,
-      name: '声出しプレデター',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 16,
-      name: 'まひまひはきゅーけいちゅー！',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 17,
-      name: 'アークスターズ',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 18,
-      name: 'メンヘラ三銃士',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 19,
-      name: 'カワボAPEX女子会',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-    {
-      number: 20,
-      name: 'イケメン3羽烏',
-      rank: 0,
-      totalPlacementPoints: 0,
-      totalKills: 0,
-      totalPoints: 0,
-      results: [],
-    },
-  ];
-
-  // キルポイント上限の有無
-  if (props.enableMaxKill) {
+  const resultOfEachTeam = useMemo(() => {
+    const teams: TeamResult[] = [
+      new TeamResult(1, 'おべっか'),
+      new TeamResult(2, 'ぱすてるさわー'),
+      new TeamResult(3, 'ざりがにいるか'),
+      new TeamResult(4, 'ラフメイカー'),
+      new TeamResult(5, 'アルティメットブルーアイズ'),
+      new TeamResult(6, 'あの伝説'),
+      new TeamResult(7, '雪月花'),
+      new TeamResult(8, 'ごーすとばすたーず'),
+      new TeamResult(9, '花芽い社'),
+      new TeamResult(10, '猫神ル幼稚園'),
+      new TeamResult(11, '幼女戦姫'),
+      new TeamResult(12, '月面着陸'),
+      new TeamResult(13, 'ゴリラの惑星エピソード1'),
+      new TeamResult(14, 'ReTIcle'),
+      new TeamResult(15, '声出しプレデター'),
+      new TeamResult(16, 'まひまひはきゅーけいちゅー！'),
+      new TeamResult(17, 'アークスターズ'),
+      new TeamResult(18, 'メンヘラ三銃士'),
+      new TeamResult(19, 'カワボAPEX女子会'),
+      new TeamResult(20, 'イケメン3羽烏'),
+    ];
     props.dayResult.forEach((matchResult) => {
-      const numberOfMaxKills = matchResult.maxKills ?? Infinity;
+      const numberOfLimitKills = matchResult.maxKills ?? Infinity;
       matchResult.teams.forEach((teamResult) => {
-        const placementPoints = calculatePlacementPoint(teamResult.placement);
-        const kills = teamResult.kills === '-' ? 0 : teamResult.kills;
-        const killPoints = Math.min(numberOfMaxKills, kills);
-        const result: Result = {
+        teams[teamResult.number - 1].addMatchResult({
           match: matchResult.match,
-          overMaxKills: kills > numberOfMaxKills,
           placement: teamResult.placement,
           kills: teamResult.kills,
-          points: placementPoints + killPoints,
-        };
-        teams[teamResult.number - 1].results.push(result);
-        teams[teamResult.number - 1].totalPlacementPoints += placementPoints;
-        teams[teamResult.number - 1].totalKills += kills;
-        teams[teamResult.number - 1].totalPoints += placementPoints + killPoints;
+          numberOfLimitKills: numberOfLimitKills,
+        });
       });
+    });
+    return teams;
+  }, [props.dayResult]);
+
+  // キルポイント上限の有無で並べ方が違う
+  if (props.enableMaxKill) {
+    resultOfEachTeam.sort((a, b) => {
+      if (a.totalCappedPoints !== b.totalCappedPoints) {
+        return b.totalCappedPoints - a.totalCappedPoints;
+      }
+      // 同ポイントの場合は最高スコアが高いチームが上位
+      return Math.max(...b.results.map((v) => v.cappedPoints)) - Math.max(...a.results.map((v) => v.cappedPoints));
     });
   } else {
-    props.dayResult.forEach((matchResult) => {
-      matchResult.teams.forEach((teamResult) => {
-        const placementPoints = calculatePlacementPoint(teamResult.placement);
-        const killPoints = teamResult.kills === '-' ? 0 : teamResult.kills;
-        const result: Result = {
-          match: matchResult.match,
-          overMaxKills: false,
-          placement: teamResult.placement,
-          kills: teamResult.kills,
-          points: placementPoints + killPoints,
-        };
-        teams[teamResult.number - 1].results.push(result);
-        teams[teamResult.number - 1].totalPlacementPoints += placementPoints;
-        teams[teamResult.number - 1].totalKills += killPoints;
-        teams[teamResult.number - 1].totalPoints += placementPoints + killPoints;
-      });
+    resultOfEachTeam.sort((a, b) => {
+      if (a.totalPoints !== b.totalPoints) {
+        return b.totalPoints - a.totalPoints;
+      }
+      // 同ポイントの場合は最高スコアが高いチームが上位
+      return Math.max(...b.results.map((v) => v.points)) - Math.max(...a.results.map((v) => v.points));
     });
   }
-
-  teams.sort((a, b) => {
-    if (a.totalPoints !== b.totalPoints) {
-      return b.totalPoints - a.totalPoints;
-    }
-    // 同ポイントの場合は最高スコアが高いチームが上位
-    return Math.max(...b.results.map((v) => v.points)) - Math.max(...a.results.map((v) => v.points));
-  });
 
   const numberOfMatches = props.dayResult.length;
 
@@ -348,33 +207,37 @@ const ResultTable: React.VFC<Props> = (props) => {
           <HeadRow2></HeadRow2>
         </TableHead>
         <TableBody>
-          {teams.map((teamResult, i) => (
+          {resultOfEachTeam.map((team, i) => (
             <TableRow hover key={i}>
               <TableCell align="right">{i + 1}</TableCell>
-              <TableCell>{teamResult.name}</TableCell>
+              <TableCell>{team.name}</TableCell>
               <TableCell align="right">
-                <strong>{teamResult.totalPoints}</strong>
+                <strong>{props.enableMaxKill ? team.totalCappedPoints : team.totalPoints}</strong>
               </TableCell>
-              <TableCell align="right">{teamResult.totalPlacementPoints}</TableCell>
+              <TableCell align="right">{team.totalPlacementPoints}</TableCell>
               <TableCell align="right" style={borderRight}>
-                {teamResult.totalKills}
+                {team.totalKills}
               </TableCell>
-              {teamResult.results.flatMap((match) => {
+              {team.results.flatMap((match, j) => {
                 const pp = calculatePlacementPoint(match.placement);
                 return [
                   <TableCell
-                    key="placement"
+                    key={`${i}_${j}_placement`}
                     title={`${pp}ポイント`}
                     align="right"
                     style={placementColor(match.placement)}
                   >
                     {match.placement}
                   </TableCell>,
-                  <TableCell key="kills" align="right">
-                    {match.overMaxKills ? <em>{match.kills}</em> : match.kills}
+                  <TableCell key={`${i}_${j}_kills`} align="right">
+                    {match.overLimitKills ? <em>{match.kills}</em> : match.kills}
                   </TableCell>,
-                  <TableCell align="right" style={match.match !== numberOfMatches ? borderRight : {}} key="points">
-                    {match.points}
+                  <TableCell
+                    key={`${i}_${j}_points`}
+                    align="right"
+                    style={match.match !== numberOfMatches ? borderRight : {}}
+                  >
+                    {props.enableMaxKill ? match.cappedPoints : match.points}
                   </TableCell>,
                 ];
               })}
