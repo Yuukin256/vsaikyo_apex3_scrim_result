@@ -1,5 +1,5 @@
-import React from 'react';
 import { Link } from 'gatsby';
+import React from 'react';
 
 const Header: React.VFC<{ siteTitle: string }> = ({ siteTitle = '' }) => (
   <header

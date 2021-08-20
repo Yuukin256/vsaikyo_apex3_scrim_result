@@ -1,8 +1,11 @@
-import { TableContainer, Table, TableHead, TableBody, TableRow } from '@material-ui/core';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
-import TableCell from './improvedTableCell';
 import { calculatePlacementPoint } from '../utils/calculator';
-import { useMemo } from 'react';
+import TableCell from './improvedTableCell';
 
 interface InputResult {
   match: number;
@@ -89,7 +92,7 @@ interface Props {
 }
 
 const ResultTable: React.VFC<Props> = (props) => {
-  const resultOfEachTeam = useMemo(() => {
+  const resultOfEachTeam = React.useMemo(() => {
     const teams: TeamResult[] = [
       new TeamResult(1, 'おべっか'),
       new TeamResult(2, 'ぱすてるさわー'),

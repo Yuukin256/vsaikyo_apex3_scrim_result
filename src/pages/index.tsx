@@ -1,5 +1,6 @@
-import * as React from 'react';
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import React from 'react';
 import Layout from '../components/layout';
 import Seo from '../components/seo';
 import Table from '../components/table';
