@@ -133,24 +133,40 @@ const ResultTable: React.VFC<Props> = (props) => {
     return teams;
   }, [props.dayResult, props.includeAdditionalRound]);
 
+  // タイブレーク
+  // ①シングルマッチスコア
+  // ②5試合の最高順位
+  // ③最高キル数
+  // ④最高順位をより早いラウンドで獲得
   // キルポイント上限の有無で並べ方が違う
-  if (props.enableLimitKill) {
-    resultOfEachTeam.sort((a, b) => {
-      if (a.totalCappedPoints !== b.totalCappedPoints) {
+  resultOfEachTeam
+    .sort((a, b) => {
+      const aMatch = a.results.reduce((prev, current) => (prev.placement > current.placement ? prev : current));
+      const bMatch = b.results.reduce((prev, current) => (prev.placement > current.placement ? prev : current));
+      return aMatch.match - bMatch.match;
+    })
+    .sort((a, b) => {
+      const aKills = Math.max(...a.results.map((v) => (v.kills === '-' ? 0 : v.kills)));
+      const bKills = Math.max(...b.results.map((v) => (v.kills === '-' ? 0 : v.kills)));
+      return bKills - aKills;
+    })
+    .sort((a, b) => {
+      const aPlacement = Math.min(...a.results.map((v) => (v.placement === '-' ? 20 : v.placement)));
+      const bPlacement = Math.min(...b.results.map((v) => (v.placement === '-' ? 20 : v.placement)));
+      return aPlacement - bPlacement;
+    })
+    .sort((a, b) => {
+      if (props.enableLimitKill) {
+        return Math.max(...b.results.map((v) => v.cappedPoints)) - Math.max(...a.results.map((v) => v.cappedPoints));
+      }
+      return Math.max(...b.results.map((v) => v.points)) - Math.max(...a.results.map((v) => v.points));
+    })
+    .sort((a, b) => {
+      if (props.enableLimitKill) {
         return b.totalCappedPoints - a.totalCappedPoints;
       }
-      // 同ポイントの場合は最高スコアが高いチームが上位
-      return Math.max(...b.results.map((v) => v.cappedPoints)) - Math.max(...a.results.map((v) => v.cappedPoints));
+      return b.totalPoints - a.totalPoints;
     });
-  } else {
-    resultOfEachTeam.sort((a, b) => {
-      if (a.totalPoints !== b.totalPoints) {
-        return b.totalPoints - a.totalPoints;
-      }
-      // 同ポイントの場合は最高スコアが高いチームが上位
-      return Math.max(...b.results.map((v) => v.points)) - Math.max(...a.results.map((v) => v.points));
-    });
-  }
 
   const numberOfMatches = props.includeAdditionalRound ? props.dayResult.length : Math.min(props.dayResult.length, 5);
 
@@ -174,7 +190,9 @@ const ResultTable: React.VFC<Props> = (props) => {
       <TableCell align="center" style={{ width: '4em', paddingLeft: 10 }}>
         総合順位
       </TableCell>
-      <TableCell align="center" colSpan={2}>チーム</TableCell>
+      <TableCell align="center" colSpan={2}>
+        チーム
+      </TableCell>
       <TableCell align="center" style={{ width: '4.5em' }}>
         合計ポイント
       </TableCell>
