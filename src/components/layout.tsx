@@ -5,6 +5,8 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
+import Fab from '@material-ui/core/Fab';
+import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { useStaticQuery, graphql } from 'gatsby';
 import React from 'react';
 
@@ -31,6 +33,10 @@ const Layout: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
+        <Fab variant="extended" href="#" style={{ position: 'fixed', bottom: 10, right: 10 }}>
+          <UpIcon />
+          トップに戻る
+        </Fab>
         <main>{children}</main>
         <footer
           style={{
