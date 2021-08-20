@@ -27,6 +27,7 @@ interface Result {
 
 class TeamResult {
   number: number;
+  tag: string;
   name: string;
   totalPlacementPoints: number;
   totalKills: number;
@@ -34,8 +35,9 @@ class TeamResult {
   totalCappedPoints: number;
   results: Result[];
 
-  constructor(number: number, name: string) {
+  constructor(number: number, tag: string, name: string) {
     this.number = number;
+    this.tag = tag;
     this.name = name;
     this.totalPlacementPoints = 0;
     this.totalKills = 0;
@@ -94,26 +96,26 @@ interface Props {
 const ResultTable: React.VFC<Props> = (props) => {
   const resultOfEachTeam = React.useMemo(() => {
     const teams: TeamResult[] = [
-      new TeamResult(1, 'おべっか'),
-      new TeamResult(2, 'ぱすてるさわー'),
-      new TeamResult(3, 'ざりがにいるか'),
-      new TeamResult(4, 'ラフメイカー'),
-      new TeamResult(5, 'アルティメットブルーアイズ'),
-      new TeamResult(6, 'あの伝説'),
-      new TeamResult(7, '雪月花'),
-      new TeamResult(8, 'ごーすとばすたーず'),
-      new TeamResult(9, '花芽い社'),
-      new TeamResult(10, '猫神ル幼稚園'),
-      new TeamResult(11, '幼女戦姫'),
-      new TeamResult(12, '月面着陸'),
-      new TeamResult(13, 'ゴリラの惑星エピソード1'),
-      new TeamResult(14, 'ReTIcle'),
-      new TeamResult(15, '声出しプレデター'),
-      new TeamResult(16, 'まひまひはきゅーけいちゅー！'),
-      new TeamResult(17, 'アークスターズ'),
-      new TeamResult(18, 'メンヘラ三銃士'),
-      new TeamResult(19, 'カワボAPEX女子会'),
-      new TeamResult(20, 'イケメン3羽烏'),
+      new TeamResult(1, 'OBK', 'おべっか'),
+      new TeamResult(2, 'POW', 'ぱすてるさわー'),
+      new TeamResult(3, 'ZGR', 'ざりがにいるか'),
+      new TeamResult(4, 'LHA', 'ラフメイカー'),
+      new TeamResult(5, 'UBE', 'アルティメットブルーアイズ'),
+      new TeamResult(6, 'OTL', 'あの伝説'),
+      new TeamResult(7, 'SGK', '雪月花'),
+      new TeamResult(8, 'GBS', 'ごーすとばすたーず'),
+      new TeamResult(9, 'KGS', '花芽い社'),
+      new TeamResult(10, 'NGM', '猫神ル幼稚園'),
+      new TeamResult(11, 'YUK', '幼女戦姫'),
+      new TeamResult(12, 'MLG', '月面着陸'),
+      new TeamResult(13, 'PG1', 'ゴリラの惑星エピソード1'),
+      new TeamResult(14, 'RTI', 'レティクル'),
+      new TeamResult(15, 'KOD', '声出しプレデター'),
+      new TeamResult(16, 'MQK', 'まひまひはきゅーけいちゅー！'),
+      new TeamResult(17, 'ARC', 'アークスターズ'),
+      new TeamResult(18, 'MH3', 'メンヘラ三銃士'),
+      new TeamResult(19, 'KWV', 'カワボAPEX女子会'),
+      new TeamResult(20, 'I3G', 'イケメン3羽烏'),
     ];
     props.dayResult.forEach((matchResult) => {
       if (!props.includeAdditionalRound && matchResult.match > 5) return;
@@ -155,7 +157,7 @@ const ResultTable: React.VFC<Props> = (props) => {
   const HeadRow1: React.VFC = () => {
     return (
       <TableRow>
-        <TableCell colSpan={5} style={borderRight}></TableCell>
+        <TableCell colSpan={6} style={borderRight}></TableCell>
         {Array(numberOfMatches)
           .fill(null)
           .map((_, i) => (
@@ -172,7 +174,7 @@ const ResultTable: React.VFC<Props> = (props) => {
       <TableCell align="center" style={{ width: '4em', paddingLeft: 10 }}>
         総合順位
       </TableCell>
-      <TableCell align="center">チーム</TableCell>
+      <TableCell align="center" colSpan={2}>チーム</TableCell>
       <TableCell align="center" style={{ width: '4.5em' }}>
         合計ポイント
       </TableCell>
@@ -213,6 +215,7 @@ const ResultTable: React.VFC<Props> = (props) => {
           {resultOfEachTeam.map((team, i) => (
             <TableRow hover key={i}>
               <TableCell align="right">{i + 1}</TableCell>
+              <TableCell>{team.tag}</TableCell>
               <TableCell>{team.name}</TableCell>
               <TableCell align="right">
                 <strong>{props.enableLimitKill ? team.totalCappedPoints : team.totalPoints}</strong>
