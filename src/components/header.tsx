@@ -3,6 +3,7 @@ import React from 'react';
 
 const Header: React.VFC<{ siteTitle: string }> = ({ siteTitle = '' }) => (
   <header
+    id="top"
     style={{
       background: `rebeccapurple`,
       marginBottom: `1.45rem`,

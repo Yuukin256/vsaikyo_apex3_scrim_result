@@ -33,7 +33,7 @@ const Layout: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <Fab variant="extended" href="#" style={{ position: 'fixed', bottom: 10, right: 10 }}>
+        <Fab variant="extended" href="#top" style={{ position: 'fixed', bottom: 10, right: 10 }}>
           <UpIcon />
           トップに戻る
         </Fab>
