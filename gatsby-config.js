@@ -32,7 +32,7 @@ module.exports = {
     },
     `gatsby-plugin-gatsby-cloud`,
     {
-      resolve: "gatsby-plugin-google-gtag",
+      resolve: 'gatsby-plugin-google-gtag',
       options: {
         trackingIds: [process.env.ANALYTICS_TRACKING_ID],
         pluginConfig: {
@@ -40,8 +40,9 @@ module.exports = {
         },
       },
     },
+    'gatsby-plugin-material-ui',
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
   ],
-}
+};
