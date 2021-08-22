@@ -111,7 +111,7 @@ const ResultTable: React.VFC<Props> = (props) => {
       new TeamResult(13, 'PG1', 'ゴリラの惑星エピソード1'),
       new TeamResult(14, 'RTI', 'レティクル'),
       new TeamResult(15, 'KOD', '声出しプレデター'),
-      new TeamResult(16, 'MQK', 'まひまひはきゅーけいちゅー！'),
+      new TeamResult(16, 'MQK', 'まひまひきゅーけいちゅー！'),
       new TeamResult(17, 'ARC', 'アークスターズ'),
       new TeamResult(18, 'MH3', 'メンヘラ三銃士'),
       new TeamResult(19, 'KWV', 'カワボAPEX女子会'),

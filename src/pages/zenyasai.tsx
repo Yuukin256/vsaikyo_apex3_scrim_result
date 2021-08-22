@@ -105,7 +105,7 @@ const MainPage: React.FC = () => {
             <TableRow hover>
               <TableCell align="right">10</TableCell>
               <TableCell>MQK</TableCell>
-              <TableCell> まひまひはきゅーけいちゅー！</TableCell>
+              <TableCell>まひまひきゅーけいちゅー！</TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
             </TableRow>
