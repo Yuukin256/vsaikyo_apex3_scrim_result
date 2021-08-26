@@ -40,7 +40,7 @@ const Seo: React.VFC<Props> = ({ description = '', lang = 'en', meta = [], title
         lang,
       }}
       title={title}
-      titleTemplate={defaultTitle}
+      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
       meta={[
         {
           name: `description`,
@@ -68,7 +68,7 @@ const Seo: React.VFC<Props> = ({ description = '', lang = 'en', meta = [], title
         },
         {
           name: `twitter:title`,
-          content: defaultTitle,
+          content: `${title} | ${defaultTitle}`,
         },
         {
           name: `twitter:description`,

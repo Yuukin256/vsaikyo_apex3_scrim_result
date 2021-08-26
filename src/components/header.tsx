@@ -5,7 +5,7 @@ const Header: React.VFC<{ siteTitle: string }> = ({ siteTitle = '' }) => (
   <header
     id="top"
     style={{
-      background: `rebeccapurple`,
+      background: `#6d00e2`,
       marginBottom: `1.45rem`,
     }}
   >
