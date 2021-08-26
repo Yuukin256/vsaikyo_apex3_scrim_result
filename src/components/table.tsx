@@ -5,20 +5,26 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
+import { styled } from '@material-ui/core/styles';
 import React from 'react';
 import { calculatePlacementPoint } from '../utils/calculator';
 
-const TableCell: React.VFC<TableCellProps> = ({ title, children, ...props }) => {
-  if (title) {
-    return (
-      <Tooltip title={title}>
-        <MuiTableCell {...props}>{children}</MuiTableCell>
-      </Tooltip>
-    );
-  } else {
-    return <MuiTableCell {...props}>{children}</MuiTableCell>;
-  }
-};
+const TableCell: React.VFC<TableCellProps> = React.memo(
+  styled(({ title, children, ...props }) => {
+    if (title) {
+      return (
+        <Tooltip title={title}>
+          <MuiTableCell {...props}>{children}</MuiTableCell>
+        </Tooltip>
+      );
+    } else {
+      return <MuiTableCell {...props}>{children}</MuiTableCell>;
+    }
+  })({
+    paddingLeft: 12,
+    paddingRight: 12,
+  })
+);
 
 interface InputResult {
   match: number;
