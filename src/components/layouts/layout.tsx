@@ -5,11 +5,10 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import Fab from '@material-ui/core/Fab';
-import UpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { useStaticQuery, graphql } from 'gatsby';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
-
+import FabToTop from '../blocks/fabToTop';
 import Header from './header';
 import './layout.css';
 
@@ -24,8 +23,16 @@ const Layout: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
     }
   `);
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#6d00e2',
+      },
+    },
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div
         style={{
@@ -33,10 +40,7 @@ const Layout: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-        <Fab variant="extended" href="#top" style={{ position: 'fixed', bottom: 10, right: 10 }}>
-          <UpIcon />
-          トップに戻る
-        </Fab>
+        <FabToTop />
         <main>{children}</main>
         <footer
           style={{
@@ -48,7 +52,7 @@ const Layout: React.VFC<{ children: React.ReactNode }> = ({ children }) => {
           <a href="https://www.gatsbyjs.com">Gatsby</a>
         </footer>
       </div>
-    </>
+    </ThemeProvider>
   );
 };
 

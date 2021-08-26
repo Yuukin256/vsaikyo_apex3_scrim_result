@@ -5,8 +5,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import React from 'react';
 import TableCell from '../components/improvedTableCell';
-import Layout from '../components/layout';
-import Seo from '../components/seo';
+import Layout from '../components/layouts/layout';
+import Seo from '../components/layouts/seo';
 
 const MainPage: React.FC = () => {
   return (

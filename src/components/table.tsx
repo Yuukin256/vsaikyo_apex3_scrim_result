@@ -1,11 +1,24 @@
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import MuiTableCell, { TableCellProps } from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Tooltip from '@material-ui/core/Tooltip';
 import React from 'react';
 import { calculatePlacementPoint } from '../utils/calculator';
-import TableCell from './improvedTableCell';
+
+const TableCell: React.VFC<TableCellProps> = ({ title, children, ...props }) => {
+  if (title) {
+    return (
+      <Tooltip title={title}>
+        <MuiTableCell {...props}>{children}</MuiTableCell>
+      </Tooltip>
+    );
+  } else {
+    return <MuiTableCell {...props}>{children}</MuiTableCell>;
+  }
+};
 
 interface InputResult {
   match: number;

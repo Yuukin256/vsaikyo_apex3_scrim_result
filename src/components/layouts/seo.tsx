@@ -5,8 +5,8 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import { useStaticQuery, graphql } from 'gatsby';
-import * as React from 'react';
+import { graphql, useStaticQuery } from 'gatsby';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 
 interface Props {
