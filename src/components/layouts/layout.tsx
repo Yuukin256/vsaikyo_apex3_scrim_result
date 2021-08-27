@@ -8,7 +8,7 @@
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
-import FabToTop from '../blocks/fabToTop';
+import FabToTop from '../atomics/fabToTop';
 import Header from './header';
 import './layout.css';
 

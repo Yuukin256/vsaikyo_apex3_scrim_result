@@ -1,10 +1,10 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import React from 'react';
-import Layout from '../components/layouts/layout';
-import Seo from '../components/layouts/seo';
-import Table from '../components/table';
-import data from '../data/data.json';
+import ResultTable from 'components/blocks/resultTable';
+import Layout from 'components/layouts/layout';
+import Seo from 'components/layouts/seo';
+import data from 'data/data.json';
 
 const MainPage: React.FC = () => {
   return (
@@ -37,7 +37,7 @@ const MainPage: React.FC = () => {
               <h2>{day.day}</h2>
               <FormControlLabel
                 onChange={(_, checked) => setEnableLimitKill(checked)}
-                control={<Checkbox color="primary" checked={enableLimitKill}/>}
+                control={<Checkbox color="primary" checked={enableLimitKill} />}
                 label="キルポイント上限を適用する"
                 labelPlacement="start"
               />
@@ -47,7 +47,7 @@ const MainPage: React.FC = () => {
                 label="延長戦を含める"
                 labelPlacement="start"
               />
-              <Table
+              <ResultTable
                 dayResult={day.matches}
                 enableLimitKill={enableLimitKill}
                 includeAdditionalRound={includeAdditionalRound}

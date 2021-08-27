@@ -5,9 +5,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
-import { styled } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import React from 'react';
-import { calculatePlacementPoint } from '../utils/calculator';
+import { calculatePlacementPoint } from 'utils/calculator';
 
 const TableCell: React.VFC<TableCellProps> = React.memo(
   styled(({ title, children, ...props }) => {
@@ -36,7 +36,7 @@ interface InputResult {
   }[];
 }
 interface Result {
-  match: number;
+  number: number;
   overLimitKills: boolean;
   placement: number | '-';
   kills: number | '-';
@@ -74,7 +74,7 @@ class TeamResult {
     const placementPoints = calculatePlacementPoint(r.placement);
     const kills = r.kills === '-' ? 0 : r.kills;
     const result: Result = {
-      match: r.match,
+      number: r.match,
       overLimitKills: r.kills > r.numberOfLimitKills,
       placement: r.placement,
       kills: r.kills,
@@ -89,9 +89,13 @@ class TeamResult {
   }
 }
 
-const borderRight: React.CSSProperties = {
-  borderRight: '1px solid rgba(224, 224, 224, 1)',
-};
+const useStyles = makeStyles({
+  borderRight: {
+    borderRight: '1px solid rgba(224, 224, 224, 1)',
+  },
+  tableHead: { borderTop: '1px solid rgba(224, 224, 224, 1)', backgroundColor: '#fafafa' },
+  widthCell: { width: '4.5em' },
+});
 
 const placementColor = (placement: number | '-'): React.CSSProperties => {
   switch (placement) {
@@ -162,7 +166,7 @@ const ResultTable: React.VFC<Props> = (props) => {
     .sort((a, b) => {
       const aMatch = a.results.reduce((prev, current) => (prev.placement > current.placement ? prev : current));
       const bMatch = b.results.reduce((prev, current) => (prev.placement > current.placement ? prev : current));
-      return aMatch.match - bMatch.match;
+      return aMatch.number - bMatch.number;
     })
     .sort((a, b) => {
       const aKills = Math.max(...a.results.map((v) => (v.kills === '-' ? 0 : v.kills)));
@@ -189,14 +193,21 @@ const ResultTable: React.VFC<Props> = (props) => {
 
   const numberOfMatches = props.includeAdditionalRound ? props.dayResult.length : Math.min(props.dayResult.length, 5);
 
+  const classes = useStyles();
+
   const HeadRow1: React.VFC = () => {
     return (
       <TableRow>
-        <TableCell colSpan={6} style={borderRight}></TableCell>
+        <TableCell colSpan={6} className={classes.borderRight}></TableCell>
         {Array(numberOfMatches)
           .fill(null)
           .map((_, i) => (
-            <TableCell colSpan={3} align="center" style={i + 1 !== numberOfMatches ? borderRight : {}} key={i + 1}>
+            <TableCell
+              colSpan={3}
+              align="center"
+              className={i + 1 !== numberOfMatches ? classes.borderRight : ''}
+              key={i + 1}
+            >
               {i + 1}試合目
             </TableCell>
           ))}
@@ -206,35 +217,31 @@ const ResultTable: React.VFC<Props> = (props) => {
 
   const HeadRow2: React.VFC = () => (
     <TableRow>
-      <TableCell align="center" style={{ width: '4em', paddingLeft: 10 }}>
+      <TableCell align="center" className={classes.widthCell} style={{ paddingLeft: 10 }}>
         総合順位
       </TableCell>
       <TableCell align="center" colSpan={2}>
         チーム
       </TableCell>
-      <TableCell align="center" style={{ width: '4.5em' }}>
+      <TableCell align="center" className={classes.widthCell}>
         合計ポイント
       </TableCell>
-      <TableCell align="center" style={{ width: '4.5em' }}>
+      <TableCell align="center" className={classes.widthCell}>
         合計順位ポイント
       </TableCell>
-      <TableCell align="center" style={{ ...borderRight, width: '4.5em' }}>
+      <TableCell align="center" className={`${classes.borderRight} ${classes.widthCell}`}>
         合計キル数
       </TableCell>
       {Array(numberOfMatches)
         .fill(null)
         .flatMap((_, i) => [
-          <TableCell key={i + 'a'} align="center" style={{ width: '4.5em' }}>
+          <TableCell key={i + 'a'} align="center" className={classes.widthCell}>
             順位
           </TableCell>,
-          <TableCell key={i + 'b'} align="center" style={{ width: '4.5em' }}>
+          <TableCell key={i + 'b'} align="center" className={classes.widthCell}>
             キル数
           </TableCell>,
-          <TableCell
-            key={i + 'c'}
-            align="center"
-            style={i + 1 !== numberOfMatches ? { ...borderRight, width: '4.5em' } : { width: '4.5em' }}
-          >
+          <TableCell key={i + 'c'} align="center" className={`${classes.borderRight} ${classes.widthCell}`}>
             ポイント
           </TableCell>,
         ])}
@@ -244,13 +251,13 @@ const ResultTable: React.VFC<Props> = (props) => {
   return (
     <TableContainer>
       <Table size="small" style={{ width: 'auto' }}>
-        <TableHead style={{ borderTop: '1px solid rgba(224, 224, 224, 1)', backgroundColor: '#fafafa' }}>
+        <TableHead className={classes.tableHead}>
           <HeadRow1></HeadRow1>
           <HeadRow2></HeadRow2>
         </TableHead>
         <TableBody>
           {resultOfEachTeam.map((team, i) => (
-            <TableRow hover key={i}>
+            <TableRow hover key={team.number}>
               <TableCell align="right">{i + 1}</TableCell>
               <TableCell>{team.tag}</TableCell>
               <TableCell>{team.name}</TableCell>
@@ -258,27 +265,27 @@ const ResultTable: React.VFC<Props> = (props) => {
                 <strong>{props.enableLimitKill ? team.totalCappedPoints : team.totalPoints}</strong>
               </TableCell>
               <TableCell align="right">{team.totalPlacementPoints}</TableCell>
-              <TableCell align="right" style={borderRight}>
+              <TableCell align="right" className={classes.borderRight}>
                 {team.totalKills}
               </TableCell>
-              {team.results.flatMap((match, j) => {
+              {team.results.flatMap((match) => {
                 const pp = calculatePlacementPoint(match.placement);
                 return [
                   <TableCell
-                    key={`${i}_${j}_placement`}
+                    key={`${team.number}_${match.number}_placement`}
                     title={`${pp}ポイント`}
                     align="right"
                     style={placementColor(match.placement)}
                   >
                     {match.placement}
                   </TableCell>,
-                  <TableCell key={`${i}_${j}_kills`} align="right">
+                  <TableCell key={`${team.number}_${match.number}_kills`} align="right">
                     {props.enableLimitKill && match.overLimitKills ? <em>{match.kills}</em> : match.kills}
                   </TableCell>,
                   <TableCell
-                    key={`${i}_${j}_points`}
+                    key={`${team.number}_${match.number}_points`}
                     align="right"
-                    style={match.match !== numberOfMatches ? borderRight : {}}
+                    className={match.number !== numberOfMatches ? classes.borderRight : ''}
                   >
                     {props.enableLimitKill ? match.cappedPoints : match.points}
                   </TableCell>,
@@ -287,7 +294,7 @@ const ResultTable: React.VFC<Props> = (props) => {
             </TableRow>
           ))}
         </TableBody>
-        <TableHead style={{ borderTop: '1px solid rgba(224, 224, 224, 1)', backgroundColor: '#fafafa' }}>
+        <TableHead className={classes.tableHead}>
           <HeadRow2></HeadRow2>
           <HeadRow1></HeadRow1>
         </TableHead>
