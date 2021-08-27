@@ -241,7 +241,11 @@ const ResultTable: React.VFC<Props> = (props) => {
           <TableCell key={i + 'b'} align="center" className={classes.widthCell}>
             キル数
           </TableCell>,
-          <TableCell key={i + 'c'} align="center" className={`${classes.borderRight} ${classes.widthCell}`}>
+          <TableCell
+            key={i + 'c'}
+            align="center"
+            className={`${numberOfMatches === i + 1 ? '' : classes.borderRight} ${classes.widthCell}`}
+          >
             ポイント
           </TableCell>,
         ])}
