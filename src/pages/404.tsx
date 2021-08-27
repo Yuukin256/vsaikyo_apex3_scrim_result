@@ -1,7 +1,6 @@
 import React from 'react';
-
-import Layout from '../components/layouts/layout';
-import Seo from '../components/layouts/seo';
+import Layout from 'components/layouts/layout';
+import Seo from 'components/layouts/seo';
 
 const NotFoundPage: React.VFC = () => (
   <Layout>
